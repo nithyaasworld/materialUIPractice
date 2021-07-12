@@ -7,15 +7,17 @@ import AddIcon from "@material-ui/icons/Add";
 import { makeStyles } from "@material-ui/core/styles";
 import Table from "./Table";
 import { useState } from "react";
-import EmployeeForm from "./EmployeeForm";
+import AddEmployeeDialog from "./AddEmployeeDialog";
+import employeeList from "./data";
 const useStyles = makeStyles((theme) => ({
   root: {
     flexShrink: 0,
-    marginLeft: theme.spacing(2.5),
+        marginLeft: theme.spacing(2.5),
+        backgroundColor: "#F5F5FD",
   },
   appBodyStyles: {
     backgroundColor: "#F5F5FD",
-    width: "80%",
+    width: "100%",
     height: "80vh",
     position: "relative",
     left: "300px",
@@ -38,10 +40,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 export default function AppBody() {
     const classes = useStyles();
-    const [showForm, setShowForm] = useState(false);
-    const addEmployeeHandler = () => {
-        setShowForm(true);
-    }
+    const [open, setOpen] = useState(false);
+    const [rows, setRows] = useState(employeeList);
   return (
     <div className={classes.appBodyStyles}>
       <div className={classes.flexProperties}>
@@ -65,14 +65,14 @@ export default function AppBody() {
           />
         </div>
         <div>
-          <Button variant="outlined"  onClick={addEmployeeHandler} color="primary" startIcon={<AddIcon/>}>
+          <Button variant="outlined"  onClick={()=> setOpen(true)} color="primary" startIcon={<AddIcon/>}>
             Add New
           </Button>
         </div>
           </div>
-          {showForm && <EmployeeForm/>}
+          <AddEmployeeDialog open={open} setOpen={setOpen} rows={rows} setRows={setRows}/>
       <div>
-        <Table />
+        <Table rows={rows}/>
       </div>
     </div>
   );

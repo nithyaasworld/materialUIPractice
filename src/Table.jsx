@@ -21,7 +21,7 @@ const useStyles = makeStyles({
     minWidth: 500,
   },
 });
-export default function TableData() {
+export default function TableData({rows}) {
   const classes = useStyles();
   const tableHeaders = [
     "Employee Name",
@@ -32,11 +32,9 @@ export default function TableData() {
   ];
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [page, setPage] = useState(0);
-  const [rows, setRows] = useState(employeeList);
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
-
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
@@ -58,7 +56,7 @@ export default function TableData() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows
+            {rows && rows
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((emp, index) => {
               return (
@@ -94,7 +92,7 @@ export default function TableData() {
       <TablePagination
         rowsPerPageOptions={[5, 10, 25]}
         component="div"
-        count={rows.length}
+        count={(rows && rows.length) || 0}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}

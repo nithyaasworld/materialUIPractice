@@ -6,16 +6,37 @@ import { FormControlLabel } from "@material-ui/core";
 import { FormGroup } from "@material-ui/core";
 import {
   MuiPickersUtilsProvider,
-  KeyboardTimePicker,
   KeyboardDatePicker,
 } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 import { Checkbox } from "@material-ui/core";
 import { Button } from "@material-ui/core";
+import { useRef, useState } from "react";
+import { MenuItem } from "@material-ui/core";
 
-export default function EmployeeForm() {
+export default function EmployeeForm({ setRows, setOpen, rows }) {
+  const nameRef = useRef();
+  const mobileRef = useRef();
+  const emailRef = useRef();
+  let [departmentVal, setDepartmentVal] = useState("HR");
+  const formSubmitHandler = () => {
+    setRows(() => {
+      let existingEmployees = rows.slice(0);
+      existingEmployees.push({
+        name: nameRef.current.value,
+        mobile: mobileRef.current.value,
+        email: emailRef.current.value,
+        department: departmentVal,
+      });
+      return existingEmployees;
+    });
+    setOpen(false);
+  };
+  const handleDepartmentChange = (event) => {
+    setDepartmentVal(event.target.value);
+  };
   return (
-    <div className="addEmployeeForm">
+    <div className="addEmployeeForm" style={{ padding: "1em" }}>
       <FormGroup>
         <div className="form-container" style={{ display: "flex" }}>
           <div
@@ -25,6 +46,7 @@ export default function EmployeeForm() {
             <FormControlLabel
               control={
                 <TextField
+                  inputRef={nameRef}
                   id="outlined-basic"
                   label="Full Name"
                   variant="outlined"
@@ -34,6 +56,7 @@ export default function EmployeeForm() {
             <FormControlLabel
               control={
                 <TextField
+                  inputRef={emailRef}
                   id="outlined-basic"
                   label="Email"
                   variant="outlined"
@@ -43,6 +66,7 @@ export default function EmployeeForm() {
             <FormControlLabel
               control={
                 <TextField
+                  inputRef={mobileRef}
                   id="outlined-basic"
                   label="Mobile"
                   variant="outlined"
@@ -79,21 +103,20 @@ export default function EmployeeForm() {
                 label="Other"
               />
             </RadioGroup>
-            <div style={{display: 'flex', flexDirection: 'column'}}>
+            <div style={{ display: "flex", flexDirection: "column" }}>
               <TextField
                 id="outlined-select-currency-native"
                 select
                 label="Department"
-                SelectProps={{
-                  native: true,
-                }}
                 variant="outlined"
+                value={departmentVal}
+                onChange={handleDepartmentChange}
               >
-                {["HR", "Marketing", "Dep1", "Dep2"].map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
+                {["HR", "Marketing", "Dept1", "Dept2"].map((option) => (
+            <MenuItem key={option} value={option}>
+              {option}
+            </MenuItem>
+          ))}
               </TextField>
               <MuiPickersUtilsProvider utils={DateFnsUtils}>
                 <KeyboardDatePicker
@@ -107,18 +130,23 @@ export default function EmployeeForm() {
                     "aria-label": "change date",
                   }}
                 />
-                          </MuiPickersUtilsProvider>
-                          <FormControlLabel
-            control={<Checkbox  name="isPermanent" />}
-            label="Permanent Employee"
-                          />
-                          <FormGroup>
-                              <div style={{ display: "flex", gap: '10px' }}>
-                              <Button variant="contained" color="primary">Submit</Button>
-                              <Button variant="contained">Reset</Button>
-                              </div>
-                              
-                          </FormGroup>
+              </MuiPickersUtilsProvider>
+              <FormControlLabel
+                control={<Checkbox name="isPermanent" />}
+                label="Permanent Employee"
+              />
+              <FormGroup>
+                <div style={{ display: "flex", gap: "10px" }}>
+                  <Button
+                    onClick={formSubmitHandler}
+                    variant="contained"
+                    color="primary"
+                  >
+                    Submit
+                  </Button>
+                  <Button variant="contained">Reset</Button>
+                </div>
+              </FormGroup>
             </div>
           </div>
         </div>

@@ -1,5 +1,5 @@
 const sidebarStyles = {
-  maxWidth: '260px',
+  width: '260px',
   backgroundColor: "#263053",
   height: '100vh',
   border: '1px solid black',

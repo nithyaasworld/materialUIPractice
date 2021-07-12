@@ -6,8 +6,8 @@ import AppBody from "./AppBody";
 function App() {
 
   return (
-    <div>
-      {/* <SideBarDrawer /> */}
+    <div style={{ display: 'flex' }}>
+      <SideBarDrawer />
       <div>
         <TopAppBar/>
       </div>
