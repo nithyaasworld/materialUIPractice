@@ -1,23 +1,22 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import SideBarDrawer from "./SideBarDrawer";
+import TopAppBar from "./TopAppBar";
 
 function App() {
+  const appStyles = {
+    display: "flex",
+    flexDirection: "row",
+  };
+  const sideBarStyles = {
+    width: "250px",
+    border: "1px solid black",
+    backgroundColor: "#263053",
+    height: "100vh",
+  };
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div style={appStyles}>
+     <SideBarDrawer/>
+      <div>hi hi hih ihii ha dhihihih dfhsda fshdihasdfh</div>
     </div>
   );
 }
